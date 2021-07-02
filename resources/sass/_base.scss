@@ -1,0 +1,60 @@
+
+h1,
+h2,
+h3,
+h4,
+h5
+h6 {
+    font-family: $heading-font;
+    font-weight: $heading-font-weight;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $font-color;
+}
+
+p,
+body,
+input,
+button,
+select,
+optgroup,
+textarea,
+li,
+a {
+    font-family: $body-font;
+    font-weight: $body-font-weight;
+    color: $font-color;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+    font-size: 1rem;
+}
+
+body,
+html {
+    background: $html-bg-color;
+    min-height: 568px;
+    min-width: 320px;
+
+    @media only screen and (max-height: 568px) {
+        height: 568px;
+    }
+
+    @media only screen and (max-width: 320px) {
+        width: 320px;
+    }
+}
+
+.btn.btn-primary {
+    color: $btn-primary-text-color;
+}
+
+.btn {
+    text-transform: uppercase;
+
+    svg {
+        height: 1rem;
+    }
+}

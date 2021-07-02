@@ -1,0 +1,44 @@
+// Body
+$body-bg: $sda-white;
+
+// Typography
+$font-family-sans-serif: $body-font;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+// Colors
+$blue: #3490dc;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66d9b;
+$red: #e3342f;
+$orange: #f6993f;
+$yellow: #ffed4a;
+$green: #38c172;
+$teal: #4dc0b5;
+$cyan: #6cb2eb;
+
+$primary: $btn-primary-bg-color;
+$secondary: $btn-secondary-bg-color;
+// $success: $green;
+// $info: $onsite-brown;
+// $warning: $yellow;
+// $danger: $red;
+// $light: $gray-100;
+// $dark: $gray-800;
+
+$progress-height: .5rem;
+$progress-bg: transparent;
+$progress-border-radius: 0;
+$progress-bar-bg: $progress-bar-bg-color;
+$progress-bar-animation-timing: 1s linear infinite;
+$progress-bar-transition: width .6s ease;
+
+$btn-border-radius: 0;
+$btn-border-radius-lg: 0;
+$btn-border-radius-sm: 0;
+$btn-font-weight: 600;
+
+$input-border-radius: 0;
+$input-border-radius-lg: 0;
+$input-border-radius-sm: 0;
