@@ -1,1 +1,0 @@
-# TrueStrategy-White-Label-Assessment

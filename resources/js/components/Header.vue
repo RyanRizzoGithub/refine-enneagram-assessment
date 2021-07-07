@@ -2,14 +2,19 @@
     <div id="header" class="sticky-top">
         <nav class="navbar navbar-light justify-content-between">
             <router-link to="/" class="navbar-brand">
-                <img src="/images/ts-logo.webp" alt="">
+                <img src="/images/expert-ownership/eo-logo.png" alt="">
             </router-link>
-            <span class="navbar-text" v-if="isPage('home') || isPage('assessment')">
-                Enneagram Assessment
-            </span>
+            <div class="text-center" v-if="isPage('home') || isPage('assessment')">
+                <span class="navbar-text pb-0">
+                    Enneagram Assessment
+                </span><br>
+                <img src="/images/expert-ownership/powered-by-true-strategy.png" alt="Powered by True Strategy">
+            </div>
             <div class="header-btn-center" v-if="!isPage('assessment') && !isPage('home') && !isPage(isHighScore().replace('t', 'type'))">
                 <a :href="`/${isHighScore().replace('t', 'type')}${queryParams}`" class="btn btn-primary">Your Report</a>
+                <img src="/images/expert-ownership/powered-by-true-strategy.png" alt="Powered by True Strategy">
             </div>
+            <img src="/images/expert-ownership/powered-by-true-strategy.png" alt="Powered by True Strategy" v-else-if="!isPage('assessment') && !isPage('home')">
         </nav>
         <slot></slot>
     </div>
@@ -75,7 +80,7 @@
         }
 
         img {
-            max-width: 120px;
+            max-width: 180px;
         }
     }
 
