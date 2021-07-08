@@ -33,16 +33,19 @@ $ts-black: #1A1718;
 $ts-black2: #2f2e2e;
 $ts-gray: #727377;
 
+$ts-red: #00528c;
+$ts-red: #AEABAE;
+
 // Type Colors
-$ts-type-1-color: #1A1919;
-$ts-type-2-color: #414241;
-$ts-type-3-color: #595A59;
-$ts-type-4-color: #777776;
-$ts-type-5-color: #A74539;
-$ts-type-6-color: #A53630;
-$ts-type-7-color: #9C2428;
-$ts-type-8-color: #801E21;
-$ts-type-9-color: #5C1A1C;
+$ts-type-1-color: #565E60;
+$ts-type-2-color: #72767A;
+$ts-type-3-color: #8D9193;
+$ts-type-4-color: #A1A2A5;
+$ts-type-5-color: #B0ACAE;
+$ts-type-6-color: #B7B3B7;
+$ts-type-7-color: #C9BFB9;
+$ts-type-8-color: #D1C6BF;
+$ts-type-9-color: #D8CEC2;
 
 // Colors
 $html-bg-color: $ts-white;
@@ -53,9 +56,9 @@ $btn-primary-text-color: $ts-white;
 $btn-secondary-bg-color: $ts-black;
 
 // Fonts
-$mh-heading-font-family: 'Nunito Sans', sans-serif;
-$mh-body-font-family: 'Nunito Sans', sans-serif;
-$mh-heading-font-weight: 900;
+$mh-heading-font-family: 'Fira Sans', sans-serif;
+$mh-body-font-family: 'Open Sans', sans-serif;
+$mh-heading-font-weight: 700;
 $mh-body-font-weight: 400;
 
 $heading-font: $mh-heading-font-family;
