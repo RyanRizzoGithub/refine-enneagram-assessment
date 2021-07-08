@@ -6,7 +6,7 @@ class CrmController extends Controller
 {
     public static function index($request, $category_score, $results_query) {
 
-        $list_id = 4;
+        $list_id = 6;
         $contact = array(
             "email" => $request->email,
             "first_name" => trim($request->first_name),
@@ -33,7 +33,7 @@ class CrmController extends Controller
         );
 
         $contact['tags'] = array(
-            "302" => "Completed Assessment",
+            "302" => "Expert Ownership - Completed Assessment",
         );
 
         // TODO: Error handling for AC

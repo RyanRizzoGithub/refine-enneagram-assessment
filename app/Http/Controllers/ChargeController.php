@@ -94,7 +94,7 @@ class ChargeController extends Controller
                     $response = array('success' => true, 'access_token' => $new_access_token);
 
                     $contact['tags'] = array(
-                        "300" => "Purchased Single-Use Access Code",
+                        "300" => "Expert Ownership - Purchased Single-Use Access Code",
                     );
 
                     // update payment intent with the access code that was generated
@@ -112,7 +112,7 @@ class ChargeController extends Controller
                     }
 
                     $contact['tags'] = array(
-                        "301" => "Purchased Multi-Use Access Code",
+                        "301" => "Expert Ownership - Purchased Multi-Use Access Code",
                     );
                 }
 
