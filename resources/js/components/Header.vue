@@ -1,6 +1,6 @@
 <template>
     <div id="header" class="sticky-top">
-        <nav class="navbar navbar-light justify-content-between">
+        <nav class="navbar navbar-light justify-content-sm-between justify-content-around">
             <router-link to="/" class="navbar-brand">
                 <img src="/images/expert-ownership/eo-logo.png" alt="">
             </router-link>
@@ -10,8 +10,8 @@
                 </span><br>
                 <img src="/images/expert-ownership/powered-by-true-strategy.png" alt="Powered by True Strategy">
             </div>
-            <div class="header-btn-center" v-if="!isPage('assessment') && !isPage('home') && !isPage(isHighScore().replace('t', 'type'))">
-                <a :href="`/${isHighScore().replace('t', 'type')}${queryParams}`" class="btn btn-primary">Your Report</a>
+            <div class="header-btn-center text-center pt-2" v-if="!isPage('assessment') && !isPage('home') && !isPage(isHighScore().replace('t', 'type'))">
+                <a :href="`/${isHighScore().replace('t', 'type')}${queryParams}`" class="btn btn-primary">Your Report</a><br>
                 <img src="/images/expert-ownership/powered-by-true-strategy.png" alt="Powered by True Strategy">
             </div>
             <img src="/images/expert-ownership/powered-by-true-strategy.png" alt="Powered by True Strategy" v-else-if="!isPage('assessment') && !isPage('home')">

@@ -197,6 +197,16 @@ body {
 .results .content .metric-category.first {
     margin-top: 0;
     padding-top: 0;
+
+    h1 {
+        max-width: 794px;
+        margin: 0 auto;
+
+        @media only screen and (max-width: 600px) {
+            max-width: 529px;
+        }
+    }
+
 }
 
 .results {
