@@ -42,8 +42,9 @@ class ChargeController extends Controller
                         'Name' => "$request->first_name $request->last_name",
                         'Access Code' => $request->title,
                         'Access Code Uses Purchased' => $request->uses ? $request->uses : 1,
+                        'Purchase Source' => 'Expert Ownership',
                     ],
-                    'statement_descriptor' => 'True Strategy - Code',
+                    'statement_descriptor' => 'Expert Ownership Code',
                 ]);
             } catch(Stripe_CardError $e) {
                 // Since it's a decline, Stripe_CardError will be caught
@@ -78,7 +79,7 @@ class ChargeController extends Controller
             } else {
                 // Success
 
-                $list_id = 4;
+                $list_id = 6;
                 $contact = array(
                     "email" => $request->email,
                     "first_name" => trim($request->first_name),
