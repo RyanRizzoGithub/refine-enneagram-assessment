@@ -13,7 +13,7 @@
         {{-- Fonts --}}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@700&family=Open+Sans:ital@0;1&family=Nunito+Sans:wght@900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@700&family=Open+Sans:ital@0;1&family=Nunito+Sans:wght@900&family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet">
 
         {{-- Styles --}}
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
