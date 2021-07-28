@@ -16,5 +16,6 @@
                 </div>
             </div>
         </div>
+        <div class="text-center">Powered by True Strategy</div>
     </div>
 </template>

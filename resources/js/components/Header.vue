@@ -7,14 +7,11 @@
             <div class="text-center" v-if="isPage('home') || isPage('assessment')">
                 <span class="navbar-text pb-0">
                     Enneagram Assessment
-                </span><br>
-                <img src="/images/expert-ownership/powered-by-true-strategy.png" alt="Powered by True Strategy">
+                </span>
             </div>
             <div class="header-btn-center text-center pt-2" v-if="!isPage('assessment') && !isPage('home') && !isPage(isHighScore().replace('t', 'type'))">
                 <a :href="`/${isHighScore().replace('t', 'type')}${queryParams}`" class="btn btn-primary">Your Report</a><br>
-                <img src="/images/expert-ownership/powered-by-true-strategy.png" alt="Powered by True Strategy">
             </div>
-            <img src="/images/expert-ownership/powered-by-true-strategy.png" alt="Powered by True Strategy" v-else-if="!isPage('assessment') && !isPage('home')">
         </nav>
         <slot></slot>
     </div>

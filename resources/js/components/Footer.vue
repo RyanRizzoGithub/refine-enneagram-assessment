@@ -2,10 +2,15 @@
     <div id="footer">
         <div class="containter-fluid">
             <div class="row">
-                <div class="col-md-6 col-sm-12 text-md-left text-center">
+                <div class="col-md-4 col-sm-12 text-md-left text-center">
                     Created By {{site_name}}.
                 </div>
-                <div class="col-md-6 col-sm-12 text-md-right text-center">
+
+                <div class="col-md-4 col-sm-12 text-center">
+                    Powered by True Strategy
+                </div>
+
+                <div class="col-md-4 col-sm-12 text-md-right text-center">
                     &#169; {{year}} All Rights Reserved
                 </div>
             </div>
