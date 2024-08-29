@@ -2,7 +2,8 @@
     <div id="header" class="sticky-top">
         <nav class="navbar navbar-light justify-content-sm-between justify-content-around">
             <router-link to="/" class="navbar-brand">
-                <img src="/images/expert-ownership/eo-logo.png" alt="">
+                <!-- <img src="/images/expert-ownership/eo-logo.png" alt=""> -->
+                <img src="/images/the-refine-network/refine-logo.png" alt="">
             </router-link>
             <div class="text-center" v-if="isPage('home') || isPage('assessment')">
                 <span class="navbar-text pb-0">

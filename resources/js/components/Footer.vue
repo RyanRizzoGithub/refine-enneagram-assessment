@@ -3,7 +3,7 @@
         <div class="containter-fluid">
             <div class="row">
                 <div class="col-md-4 col-sm-12 text-md-left text-center">
-                    Created By {{site_name}}.
+                    Created By <span>{{site_name}}</span>.
                 </div>
 
                 <div class="col-md-4 col-sm-12 text-center">
@@ -44,5 +44,9 @@
         text-transform: uppercase;
         float: left;
         width: 100%;
+
+        span {
+            text-transform: none;
+        }
     }
 </style>
