@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="type-img">
                                         <div class="type-img-bg">
-                                            <img :src="`/images/results/Enneagram_Wings-${currentType()}.png`" alt="Enneagram wings for type 1">
+                                            <img :src="`/images/results/Enneagram_Wings-${currentType()}.png`" :alt="`Enneagram wings for type ${currentType()}`">
                                         </div>
                                     </div>
                                 </div>
@@ -47,7 +47,7 @@
                     </CategoryContent>
 
                     <CategoryContent :last="!isHighScore()">
-                        <div class="boxed-section">
+                        <div class="boxed-section boxed-section-main">
                             <div class="boxed-section-col boxed-section-col-first">
                                 <h3 class="text-primary mb-0">Avoids</h3>
                                 <p>{{results.internal_drivers_avoids}}</p>
@@ -58,7 +58,7 @@
                             </div>
                             <div class="boxed-section-col boxed-section-col-middle">
                                 <h2 class="text-center text-uppercase text-primary mb-0">Internal Drivers</h2>
-                                <img :src="`/images/results/Enneagram_Wings-${currentType()}.png`" alt="enneagram wings for type 1">
+                                <img :src="`/images/results/Enneagram_Wings-${currentType()}.png`" :alt="`enneagram wings for type ${currentType()}`">
                             </div>
                             <div class="boxed-section-col boxed-section-col-last">
                                 <h3 class="text-primary mb-0">Dominate Struggle</h3>
@@ -74,7 +74,7 @@
                         <div class="border-section">
                             <div class="border-section-col border-section-col-1">
                                 <div class="border-section-col-image-holder">
-                                    <img :src="`/images/results/Enneagram_Diagram_Paths_REV-${highScoreType()}-${results.path_left}.png`" alt="enneagram wings for type 1">
+                                    <img :src="`/images/results/Enneagram_Diagram_Paths_REV-${highScoreType()}-${results.path_left}.png`" :alt="`Enneagram wing, ${highScoreType()} to ${results.path_left}`">
                                 </div>
                                 <div class="border-section-col-description-holder">
                                     <h3 :class="`text-uppercase type-${results.path_left}-color`">Confidence<br> Path</h3>
@@ -90,7 +90,7 @@
                             </div>
                             <div class="border-section-col border-section-col-2">
                                 <div class="border-section-col-image-holder">
-                                    <img :src="`/images/results/Enneagram_Diagram_Paths_REV-${highScoreType()}-${results.path_right}.png`" alt="enneagram wings for type 1">
+                                    <img :src="`/images/results/Enneagram_Diagram_Paths_REV-${highScoreType()}-${results.path_right}.png`" :alt="`Enneagram wing, ${highScoreType()} to ${results.path_right}`">
                                 </div>
                                 <div class="border-section-col-description-holder">
                                     <h3 :class="`text-uppercase type-${results.path_right}-color`">Insecurity<br> Path</h3>
@@ -108,7 +108,7 @@
                         <div class="border-section">
                             <div class="border-section-col border-section-col-3">
                                 <div class="border-section-col-image-holder">
-                                    <img :src="`/images/results/Enneagram_Diagram_Paths_REV-${highScoreType()}-${results.path_left}.png`" alt="enneagram wings for type 1">
+                                    <img :src="`/images/results/Enneagram_Diagram_Paths_REV-${highScoreType()}-${results.path_left}.png`" :alt="`Enneagram wing, ${highScoreType()} to ${results.path_left}`">
                                 </div>
                                 <div class="border-section-col-description-holder">
                                     <h3 :class="`text-uppercase type-${results.path_left}-color`">Familiar<br> Path</h3>
@@ -124,7 +124,7 @@
                             </div>
                             <div class="border-section-col border-section-col-4">
                                 <div class="border-section-col-image-holder">
-                                    <img :src="`/images/results/Enneagram_Diagram_Paths_REV-${highScoreType()}-${results.path_right}.png`" alt="enneagram wings for type 1">
+                                    <img :src="`/images/results/Enneagram_Diagram_Paths_REV-${highScoreType()}-${results.path_right}.png`" :alt="`Enneagram wing, ${highScoreType()} to ${results.path_right}`">
                                 </div>
                                 <div class="border-section-col-description-holder">
                                     <h3 :class="`text-uppercase type-${results.path_right}-color`">Leverage<br> Path</h3>
@@ -147,7 +147,7 @@
 
                         <div class="row">
                             <div class="col-md-5 align-self-center">
-                                <img :src="`/images/results/Enneagram_Wings-${highScoreType()}.png`" alt="enneagram wings for type 1" class="img-restrict-width">
+                                <img :src="`/images/results/Enneagram_Wings-${highScoreType()}.png`" alt="Enneagram wings" class="img-restrict-width">
                             </div>
                             <div class="col-md-7 align-self-center">
                                 <h3>{{results.wing1_title}}</h3>
@@ -178,7 +178,7 @@
 
                         <div class="row">
                             <div class="col-md-5 align-self-center">
-                                <img :src="results.s4_triads_img" alt="enneagram wings for type 1" class="img-restrict-width">
+                                <img :src="results.s4_triads_img" alt="Enneagram triads" class="img-restrict-width">
                             </div>
                             <div class="col-md-7 align-self-center">
                                 <h3>{{results.triad_title}}</h3>
@@ -213,12 +213,12 @@
                     <CategoryContent v-if="isHighScore()">
                         <div class="row">
                             <div class="col-md-7 align-self-center d-none d-md-block">
-                                <img src="/images/results/Enneagram_Diagram_Triads-01.png" alt="enneagram wings for type 1" class="img-restrict-width">
+                                <img src="/images/results/Enneagram_Diagram_Triads-01.png" alt="Enneagram interpersonal styles" class="img-restrict-width">
                             </div>
                             <div class="col-md-5 align-self-center">
                                 <h2>{{results.s7_title}}</h2>
                                 <p>{{results.s7_content}}</p>
-                                <img src="/images/results/Enneagram_Diagram_Triads-01.png" alt="enneagram wings for type 1" class="img-restrict-width d-md-none">
+                                <img src="/images/results/Enneagram_Diagram_Triads-01.png" alt="Enneagram interpersonal styles" class="img-restrict-width d-md-none">
                                 <h3>{{results.ir_stances_assertive_style_title}}</h3>
                                 <p>{{results.ir_stances_assertive_style_content}}</p>
                                 <h3>{{results.ir_stances_dutiful_style_title}}</h3>
@@ -239,7 +239,7 @@
                     <CategoryContent v-if="isHighScore()">
                         <h2>{{results.s8_title}}</h2>
                         <div v-html="results.s8_content"></div>
-                        <img src="/images/results/Enneagram_Diagram_Triads-07.png" alt="enneagram wings for type 1" class="img-restrict-width d-md-none">
+                        <img src="/images/results/Enneagram_Diagram_Triads-07.png" alt="Enneagram harmonic triad" class="img-restrict-width d-md-none">
                         <div class="row">
                             <div class="col-md-6 align-self-center">
                                 <h3>{{results.nc_harmonic_reactive_style_title}}</h3>
@@ -262,7 +262,7 @@
                                 </ul>
                             </div>
                             <div class="col-md-6 align-self-center">
-                                <img src="/images/results/Enneagram_Diagram_Triads-07.png" alt="enneagram wings for type 1" class="img-restrict-width d-none d-md-block">
+                                <img src="/images/results/Enneagram_Diagram_Triads-07.png" alt="Enneagram harmonic triad" class="img-restrict-width d-none d-md-block">
                                 <div class="boxed-label-section">
                                     <h3>{{results.conflict_triggers_title}}</h3>
                                     <p class="mb-0">{{results.conflict_triggers_content}}</p>

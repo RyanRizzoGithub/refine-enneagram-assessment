@@ -140,7 +140,7 @@ a {
     height: .75rem;
 
     .progress-bar {
-        background: linear-gradient(to right, $ts-red 0%, $ts-black 100%);
+        background: linear-gradient(to right, $ts-red 0%, $trn-gold 100%);
     }
 }
 
@@ -148,7 +148,7 @@ body {
     display: inline-block;
     width: 100%;
     position: relative;
-    background-image: url("/images/expert-ownership/bg.jpg");
+    background-image: url("/images/true-strategy/bg.jpg");
     background-size: cover;
     background-attachment: fixed;
     background-repeat-x: no-repeat;
@@ -457,6 +457,14 @@ body {
         padding: 2rem;
         border: .25rem solid $ts-red;
         display: flex;
+
+        &.boxed-section-main {
+            border: .25rem solid $ts-type-7-color;
+
+            h2, h3 {
+                color: $ts-type-7-color !important;
+            }
+        }
 
         @media only screen and (max-width: 827px) {
             flex-direction: column;

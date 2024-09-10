@@ -42,9 +42,9 @@ class ChargeController extends Controller
                         'Name' => "$request->first_name $request->last_name",
                         'Access Code' => $request->title,
                         'Access Code Uses Purchased' => $request->uses ? $request->uses : 1,
-                        'Purchase Source' => 'Expert Ownership',
+                        'Purchase Source' => env('APP_NAME'),
                     ],
-                    'statement_descriptor' => 'Expert Ownership Code',
+                    'statement_descriptor' => env('APP_NAME') .' Code',
                 ]);
             } catch(Stripe_CardError $e) {
                 // Since it's a decline, Stripe_CardError will be caught
@@ -79,7 +79,7 @@ class ChargeController extends Controller
             } else {
                 // Success
 
-                $list_id = 6;
+                $list_id = env('ACTIVECAMPAIGN_LIST_ID');
                 $contact = array(
                     "email" => $request->email,
                     "first_name" => trim($request->first_name),
@@ -95,7 +95,7 @@ class ChargeController extends Controller
                     $response = array('success' => true, 'access_token' => $new_access_token);
 
                     $contact['tags'] = array(
-                        "300" => "Expert Ownership - Purchased Single-Use Access Code",
+                        "300" => env('APP_NAME') ." - Purchased Single-Use Access Code",
                     );
 
                     // update payment intent with the access code that was generated
@@ -113,7 +113,7 @@ class ChargeController extends Controller
                     }
 
                     $contact['tags'] = array(
-                        "301" => "Expert Ownership - Purchased Multi-Use Access Code",
+                        "301" => env('APP_NAME'). " - Purchased Multi-Use Access Code",
                     );
                 }
 
