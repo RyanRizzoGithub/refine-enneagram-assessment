@@ -118,6 +118,10 @@ a {
         padding: 0 1rem;
         min-height: 83px;
 
+        @media only screen and (max-width: 355px) {
+            padding: 0;
+        }
+
         .navbar-brand {
             padding: 0;
         }
