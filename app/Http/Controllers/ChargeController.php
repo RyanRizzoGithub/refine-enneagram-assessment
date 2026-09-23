@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\TokenController;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use App\Token;
 
 class ChargeController extends Controller
@@ -124,8 +125,16 @@ class ChargeController extends Controller
                     '%ACCESS_CODE_USES_PURCHASED%,0' => $request->uses ? $request->uses : 1,
                 );
 
-                // TODO: Error handling for AC
-                $contact_sync = app('ActiveCampaign')->api("contact/sync", $contact);
+                // ActiveCampaign sync is best-effort and runs AFTER the card
+                // has already been charged and the access code created, so a
+                // CRM/email failure (e.g. the account past-due, or a network
+                // error) must never turn a successful purchase into a 500.
+                // Log it and return the successful response.
+                try {
+                    app('ActiveCampaign')->api("contact/sync", $contact);
+                } catch (\Throwable $e) {
+                    Log::warning('ActiveCampaign contact sync failed on purchase: ' . $e->getMessage());
+                }
             }
 
             return response()->json($response, 200);
