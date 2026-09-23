@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\CrmController;
-use App\Mail\AssessmentResults;
 use Illuminate\Validation\Rule;
 use App\Token;
 
@@ -162,14 +160,45 @@ class SubmissionController extends Controller
                 $access_token->decrement('uses', 1);
                 CrmController::index($request, $category_score, $results_query);
 
-                // Send the results email directly from the app (best-effort):
-                // the app owns delivery, so results still go out regardless of
-                // ActiveCampaign's state. A mail failure must never break submit.
+                // Send the results email directly from the app via Resend's HTTP
+                // API (best-effort). We use HTTPS rather than SMTP because hosts
+                // often block outbound SMTP ports; a short timeout + try/catch
+                // keep a mail hiccup from ever slowing or breaking the submit.
                 try {
                     $enneagram_number = str_replace('type', '', $category_score_sorted[0]);
-                    Mail::to($request->email)->send(
-                        new AssessmentResults($request->first_name, $enneagram_number, url($results_query))
-                    );
+                    $html = view('emails.results', [
+                        'firstName'       => $request->first_name,
+                        'enneagramNumber' => $enneagram_number,
+                        'resultsUrl'      => url($results_query),
+                    ])->render();
+
+                    $payload = json_encode([
+                        'from'    => env('MAIL_FROM_NAME', 'theREFINEnetwork') . ' <' . env('MAIL_FROM_ADDRESS', 'onboarding@resend.dev') . '>',
+                        'to'      => [$request->email],
+                        'subject' => 'Here are your results',
+                        'html'    => $html,
+                    ]);
+
+                    $ch = curl_init('https://api.resend.com/emails');
+                    curl_setopt_array($ch, [
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_POST           => true,
+                        CURLOPT_POSTFIELDS     => $payload,
+                        CURLOPT_HTTPHEADER     => [
+                            'Authorization: Bearer ' . env('RESEND_API_KEY'),
+                            'Content-Type: application/json',
+                        ],
+                        CURLOPT_CONNECTTIMEOUT => 5,
+                        CURLOPT_TIMEOUT        => 10,
+                    ]);
+                    $resp = curl_exec($ch);
+                    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    $err  = curl_error($ch);
+                    curl_close($ch);
+
+                    if ($resp === false || $code < 200 || $code >= 300) {
+                        Log::warning("Resend results email failed (HTTP $code): " . ($err ?: $resp));
+                    }
                 } catch (\Throwable $e) {
                     Log::warning('Results email send failed on assessment submit: ' . $e->getMessage());
                 }
