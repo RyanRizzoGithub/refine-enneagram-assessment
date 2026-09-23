@@ -13,13 +13,17 @@
 FROM php:7.4-fpm-bullseye
 
 # System libs + the PHP extensions Laravel 6 + Postgres need.
-# Wipe the base image's stale apt index first (it's EOL/frozen, so the
-# cached versions 404 on the mirror), refresh it, and retry flaky fetches.
+# bullseye is EOL/frozen: its debian-security pool has version-skewed .debs
+# that 404 on the mirror (only the security suite is affected; main is fine).
+# Drop the security suite and install the stable versions from main instead.
+# NOTE: this trades the latest security-patch revisions of these OS libs for a
+# reliable build. Revisit by moving to a maintained base image down the road.
 RUN set -eux; \
+    sed -i '/security/d' /etc/apt/sources.list; \
     echo 'Acquire::Retries "5"; Acquire::http::Timeout "30";' > /etc/apt/apt.conf.d/80-retries; \
     rm -rf /var/lib/apt/lists/*; \
     apt-get update; \
-    apt-get install -y --no-install-recommends --fix-missing \
+    apt-get install -y --no-install-recommends \
         nginx libpq-dev libonig-dev libzip-dev unzip git; \
     docker-php-ext-install pdo pdo_pgsql pgsql mbstring bcmath zip; \
     apt-get clean; \
