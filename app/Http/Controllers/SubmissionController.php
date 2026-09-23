@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\CrmController;
+use App\Mail\AssessmentResults;
 use Illuminate\Validation\Rule;
 use App\Token;
 
@@ -158,7 +161,18 @@ class SubmissionController extends Controller
 
                 $access_token->decrement('uses', 1);
                 CrmController::index($request, $category_score, $results_query);
-                // DatabaseController::index($request, $results_query);
+
+                // Send the results email directly from the app (best-effort):
+                // the app owns delivery, so results still go out regardless of
+                // ActiveCampaign's state. A mail failure must never break submit.
+                try {
+                    $enneagram_number = str_replace('type', '', $category_score_sorted[0]);
+                    Mail::to($request->email)->send(
+                        new AssessmentResults($request->first_name, $enneagram_number, url($results_query))
+                    );
+                } catch (\Throwable $e) {
+                    Log::warning('Results email send failed on assessment submit: ' . $e->getMessage());
+                }
 
             }
             $response = array('success' => true, 'resultsUrl' => $results_query);
