@@ -1,19 +1,16 @@
 # ============================================================
 # theREFINEnetwork Enneagram assessment — Railway deploy image
 # Laravel 6 / PHP 7.4 + Postgres (Supabase), nginx + php-fpm.
-# Multi-stage: build Vue/Sass assets, then assemble PHP runtime.
+#
+# NOTE: front-end assets are PRE-BUILT and committed under public/
+# (js, css, mix-manifest.json). We deliberately do NOT run Node in
+# this image — Railway's builder OOM-killed `npm ci` (exit 137).
+# To change front-end assets, rebuild locally and commit the result:
+#     npm ci
+#     NODE_OPTIONS=--openssl-legacy-provider npm run prod
 # ============================================================
 
-# ---------- stage 1: build front-end assets ----------
-FROM node:16-bullseye AS assets
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
-COPY . .
-RUN npm run prod
-
-# ---------- stage 2: PHP runtime ----------
-FROM php:7.4-fpm-bullseye AS app
+FROM php:7.4-fpm-bullseye
 
 # System libs + the PHP extensions Laravel 6 + Postgres need.
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -31,9 +28,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# App source, then overlay the compiled assets from stage 1.
+# App source — includes the pre-built public/ assets.
 COPY . .
-COPY --from=assets /app/public/ ./public/
 
 # PHP dependencies (no dev, optimized; skip scripts so no env is needed at build).
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
