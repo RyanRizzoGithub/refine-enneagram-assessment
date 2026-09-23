@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
+
 class CrmController extends Controller
 {
     public static function index($request, $category_score, $results_query) {
@@ -36,7 +38,13 @@ class CrmController extends Controller
             "302" => env('APP_NAME') ." - Completed Assessment",
         );
 
-        // TODO: Error handling for AC
-        $contact_sync = app('ActiveCampaign')->api("contact/sync", $contact);
+        // ActiveCampaign sync is best-effort: a CRM/email failure (e.g. the
+        // account being past-due/suspended, or a network error) must never
+        // break a completed assessment. Log it and let the submission succeed.
+        try {
+            app('ActiveCampaign')->api("contact/sync", $contact);
+        } catch (\Throwable $e) {
+            Log::warning('ActiveCampaign contact sync failed on assessment submit: ' . $e->getMessage());
+        }
     }
 }
