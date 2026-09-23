@@ -13,15 +13,17 @@
 FROM php:7.4-fpm-bullseye
 
 # System libs + the PHP extensions Laravel 6 + Postgres need.
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        nginx \
-        libpq-dev \
-        libonig-dev \
-        libzip-dev \
-        unzip \
-        git \
-    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring bcmath zip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Wipe the base image's stale apt index first (it's EOL/frozen, so the
+# cached versions 404 on the mirror), refresh it, and retry flaky fetches.
+RUN set -eux; \
+    echo 'Acquire::Retries "5"; Acquire::http::Timeout "30";' > /etc/apt/apt.conf.d/80-retries; \
+    rm -rf /var/lib/apt/lists/*; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends --fix-missing \
+        nginx libpq-dev libonig-dev libzip-dev unzip git; \
+    docker-php-ext-install pdo pdo_pgsql pgsql mbstring bcmath zip; \
+    apt-get clean; \
+    rm -rf /var/lib/apt/lists/*
 
 # Composer (copied from the official image).
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
