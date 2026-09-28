@@ -60,11 +60,10 @@
             <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td align="center" style="padding:20px 0 10px 0;">
-                  {{-- TODO: replace with the real coaching booking URL once confirmed with Evan --}}
                   <table role="presentation" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <td align="center" bgcolor="#AEABAE" style="border-radius:8px;">
-                        <a href="https://therefinenetwork.com" target="_blank" style="font-size:20px;font-family:Montserrat,Helvetica,Arial,sans-serif;color:#ffffff;text-decoration:none;padding:15px 25px;border-radius:8px;border:1px solid #aeabae;display:inline-block;font-weight:700;">SCHEDULE YOUR SESSION</a>
+                        <a href="https://www.therefinenetwork.com/courses" target="_blank" style="font-size:20px;font-family:Montserrat,Helvetica,Arial,sans-serif;color:#ffffff;text-decoration:none;padding:15px 25px;border-radius:8px;border:1px solid #aeabae;display:inline-block;font-weight:700;">Want to learn more?</a>
                       </td>
                     </tr>
                   </table>

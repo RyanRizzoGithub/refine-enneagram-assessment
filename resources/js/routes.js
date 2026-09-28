@@ -16,7 +16,7 @@ const router = new VueRouter({
             component: Buy,
             props: true,
             meta: {
-                title: `${process.env.MIX_APP_NAME}`,
+                title: `theREFINEnetwork`,
             }
         },
         {
@@ -25,7 +25,7 @@ const router = new VueRouter({
             component: Home,
             props: true,
             meta: {
-                title: `Assessment | ${process.env.MIX_APP_NAME}`,
+                title: `Assessment | theREFINEnetwork`,
             }
         },
         {
@@ -34,7 +34,7 @@ const router = new VueRouter({
             component: Type,
             props: true,
             meta: {
-                title: `Type 1 | ${process.env.MIX_APP_NAME}`,
+                title: `Type 1 | theREFINEnetwork`,
             }
         },
         {
@@ -43,7 +43,7 @@ const router = new VueRouter({
             component: Type,
             props: true,
             meta: {
-                title: `Type 2 | ${process.env.MIX_APP_NAME}`,
+                title: `Type 2 | theREFINEnetwork`,
             }
         },
         {
@@ -52,7 +52,7 @@ const router = new VueRouter({
             component: Type,
             props: true,
             meta: {
-                title: `Type 3 | ${process.env.MIX_APP_NAME}`,
+                title: `Type 3 | theREFINEnetwork`,
             }
         },
         {
@@ -61,7 +61,7 @@ const router = new VueRouter({
             component: Type,
             props: true,
             meta: {
-                title: `Type 4 | ${process.env.MIX_APP_NAME}`,
+                title: `Type 4 | theREFINEnetwork`,
             }
         },
         {
@@ -70,7 +70,7 @@ const router = new VueRouter({
             component: Type,
             props: true,
             meta: {
-                title: `Type 5 | ${process.env.MIX_APP_NAME}`,
+                title: `Type 5 | theREFINEnetwork`,
             }
         },
         {
@@ -79,7 +79,7 @@ const router = new VueRouter({
             component: Type,
             props: true,
             meta: {
-                title: `Type 6 | ${process.env.MIX_APP_NAME}`,
+                title: `Type 6 | theREFINEnetwork`,
             }
         },
         {
@@ -88,7 +88,7 @@ const router = new VueRouter({
             component: Type,
             props: true,
             meta: {
-                title: `Type 7 | ${process.env.MIX_APP_NAME}`,
+                title: `Type 7 | theREFINEnetwork`,
             }
         },
         {
@@ -97,7 +97,7 @@ const router = new VueRouter({
             component: Type,
             props: true,
             meta: {
-                title: `Type 8 | ${process.env.MIX_APP_NAME}`,
+                title: `Type 8 | theREFINEnetwork`,
             }
         },
         {
@@ -106,7 +106,7 @@ const router = new VueRouter({
             component: Type,
             props: true,
             meta: {
-                title: `Type 9 | ${process.env.MIX_APP_NAME}`,
+                title: `Type 9 | theREFINEnetwork`,
             }
         },
         {

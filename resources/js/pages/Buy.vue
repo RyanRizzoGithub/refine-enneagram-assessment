@@ -9,13 +9,12 @@
                     <div class="col-12">
                         <div class="mt-5 mb-4">
                             <TakeAssessmentForm>
-                                <h2 class="text-center">Reedem Access Code</h2>
+                                <h2 class="text-center">Redeem Access Code</h2>
                             </TakeAssessmentForm>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="text-center">Powered by True Strategy</div>
     </div>
 </template>
