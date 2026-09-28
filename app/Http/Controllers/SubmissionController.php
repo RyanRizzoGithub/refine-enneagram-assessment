@@ -158,52 +158,38 @@ class SubmissionController extends Controller
 
                 $access_token->decrement('uses', 1);
 
-                // Send the results email directly from the app via Resend's HTTP
-                // API (best-effort). We use HTTPS rather than SMTP because hosts
-                // often block outbound SMTP ports; a short timeout + try/catch
-                // keep a mail hiccup from ever slowing or breaking the submit.
+                // Send emails from the app via Resend (best-effort — a mail
+                // hiccup must never slow or break the submit).
                 try {
                     $enneagram_number = str_replace('type', '', $category_score_sorted[0]);
-                    $html = view('emails.results', [
-                        'firstName'       => $request->first_name,
-                        'enneagramNumber' => $enneagram_number,
-                        'resultsUrl'      => url($results_query),
-                    ])->render();
+                    $results_url      = url($results_query);
 
-                    $payloadData = [
-                        'from'    => env('MAIL_FROM_NAME', 'theREFINEnetwork') . ' <' . env('MAIL_FROM_ADDRESS', 'onboarding@resend.dev') . '>',
-                        'to'      => [$request->email],
-                        'subject' => 'Here are your results',
-                        'html'    => $html,
-                    ];
+                    // 1. Results to the person who took the assessment.
+                    $this->sendResendEmail(
+                        $request->email,
+                        'Here are your results',
+                        view('emails.results', [
+                            'firstName'       => $request->first_name,
+                            'enneagramNumber' => $enneagram_number,
+                            'resultsUrl'      => $results_url,
+                        ])->render()
+                    );
 
-                    // Also send a copy to whoever purchased this access code
-                    // (tokens.email), unless they're the test taker themselves.
+                    // 2. If someone else purchased this code, notify that owner
+                    //    separately so they know who took it and can see results.
                     if (!empty($access_token->email) && strcasecmp($access_token->email, $request->email) !== 0) {
-                        $payloadData['bcc'] = [$access_token->email];
-                    }
-
-                    $payload = json_encode($payloadData);
-
-                    $ch = curl_init('https://api.resend.com/emails');
-                    curl_setopt_array($ch, [
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_POST           => true,
-                        CURLOPT_POSTFIELDS     => $payload,
-                        CURLOPT_HTTPHEADER     => [
-                            'Authorization: Bearer ' . env('RESEND_API_KEY'),
-                            'Content-Type: application/json',
-                        ],
-                        CURLOPT_CONNECTTIMEOUT => 5,
-                        CURLOPT_TIMEOUT        => 10,
-                    ]);
-                    $resp = curl_exec($ch);
-                    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                    $err  = curl_error($ch);
-                    curl_close($ch);
-
-                    if ($resp === false || $code < 200 || $code >= 300) {
-                        Log::warning("Resend results email failed (HTTP $code): " . ($err ?: $resp));
+                        $taker_name = trim($request->first_name . ' ' . $request->last_name);
+                        $this->sendResendEmail(
+                            $access_token->email,
+                            $taker_name . ' completed the assessment',
+                            view('emails.results-owner', [
+                                'takerName'       => $taker_name,
+                                'takerEmail'      => $request->email,
+                                'accessCode'      => $access_token->title,
+                                'enneagramNumber' => $enneagram_number,
+                                'resultsUrl'      => $results_url,
+                            ])->render()
+                        );
                     }
                 } catch (\Throwable $e) {
                     Log::warning('Results email send failed on assessment submit: ' . $e->getMessage());
@@ -212,6 +198,46 @@ class SubmissionController extends Controller
             }
             $response = array('success' => true, 'resultsUrl' => $results_query);
             return response()->json($response, 200);
+        }
+    }
+
+    /**
+     * Best-effort send through Resend's HTTP API. We use HTTPS rather than SMTP
+     * because hosts often block outbound SMTP ports; a short timeout keeps a
+     * mail hiccup from ever slowing the request.
+     */
+    private function sendResendEmail($to, $subject, $html)
+    {
+        try {
+            $payload = json_encode([
+                'from'    => env('MAIL_FROM_NAME', 'theREFINEnetwork') . ' <' . env('MAIL_FROM_ADDRESS', 'onboarding@resend.dev') . '>',
+                'to'      => is_array($to) ? $to : [$to],
+                'subject' => $subject,
+                'html'    => $html,
+            ]);
+
+            $ch = curl_init('https://api.resend.com/emails');
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => $payload,
+                CURLOPT_HTTPHEADER     => [
+                    'Authorization: Bearer ' . env('RESEND_API_KEY'),
+                    'Content-Type: application/json',
+                ],
+                CURLOPT_CONNECTTIMEOUT => 5,
+                CURLOPT_TIMEOUT        => 10,
+            ]);
+            $resp = curl_exec($ch);
+            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $err  = curl_error($ch);
+            curl_close($ch);
+
+            if ($resp === false || $code < 200 || $code >= 300) {
+                Log::warning("Resend email failed (HTTP $code) to " . json_encode($to) . ': ' . ($err ?: $resp));
+            }
+        } catch (\Throwable $e) {
+            Log::warning('Resend email send failed: ' . $e->getMessage());
         }
     }
 }

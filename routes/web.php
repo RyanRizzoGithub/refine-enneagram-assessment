@@ -44,6 +44,17 @@ Route::get('/admin/email-preview-purchase', function () {
     ]);
 })->middleware('auth');
 
+// Renders the owner-notification email in the browser (admin only).
+Route::get('/admin/email-preview-owner', function () {
+    return view('emails.results-owner', [
+        'takerName'       => 'Jane Smith',
+        'takerEmail'      => 'jane@example.com',
+        'accessCode'      => 'submittest',
+        'enneagramNumber' => '1',
+        'resultsUrl'      => url('/type1?t1=100&t2=26&t3=26&t4=26&t5=26&t6=26&t7=26&t8=26&t9=26'),
+    ]);
+})->middleware('auth');
+
 // Application Routes
 Route::post('/submit', 'SubmissionController@index');
 Route::get('/{any}', 'SinglePageController@index')->where('any', '.*');
