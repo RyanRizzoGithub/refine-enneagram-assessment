@@ -34,6 +34,16 @@ Route::get('/admin/email-preview', function () {
     );
 })->middleware('auth');
 
+// Renders the purchase-confirmation email in the browser (admin only).
+Route::get('/admin/email-preview-purchase', function () {
+    return view('emails.purchase', [
+        'firstName'  => 'Riley',
+        'accessCode' => '6QOsj0X9pLpO6DJZ',
+        'uses'       => 1,
+        'orderTotal' => 24,
+    ]);
+})->middleware('auth');
+
 // Application Routes
 Route::post('/submit', 'SubmissionController@index');
 Route::get('/{any}', 'SinglePageController@index')->where('any', '.*');

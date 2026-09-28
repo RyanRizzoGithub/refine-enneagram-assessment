@@ -135,6 +135,48 @@ class ChargeController extends Controller
                 } catch (\Throwable $e) {
                     Log::warning('ActiveCampaign contact sync failed on purchase: ' . $e->getMessage());
                 }
+
+                // Send the purchase-confirmation email directly via Resend's
+                // HTTP API (best-effort), the same as the results email — the
+                // app owns delivery regardless of ActiveCampaign's state.
+                try {
+                    $html = view('emails.purchase', [
+                        'firstName'  => $request->first_name,
+                        'accessCode' => $response['access_token'],
+                        'uses'       => $request->uses ? $request->uses : 1,
+                        'orderTotal' => $stripe_intent->amount / 100,
+                    ])->render();
+
+                    $payload = json_encode([
+                        'from'    => env('MAIL_FROM_NAME', 'theREFINEnetwork') . ' <' . env('MAIL_FROM_ADDRESS', 'onboarding@resend.dev') . '>',
+                        'to'      => [$request->email],
+                        'subject' => 'Your Enneagram assessment access code',
+                        'html'    => $html,
+                    ]);
+
+                    $ch = curl_init('https://api.resend.com/emails');
+                    curl_setopt_array($ch, [
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_POST           => true,
+                        CURLOPT_POSTFIELDS     => $payload,
+                        CURLOPT_HTTPHEADER     => [
+                            'Authorization: Bearer ' . env('RESEND_API_KEY'),
+                            'Content-Type: application/json',
+                        ],
+                        CURLOPT_CONNECTTIMEOUT => 5,
+                        CURLOPT_TIMEOUT        => 10,
+                    ]);
+                    $resp    = curl_exec($ch);
+                    $code    = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    $curlErr = curl_error($ch);
+                    curl_close($ch);
+
+                    if ($resp === false || $code < 200 || $code >= 300) {
+                        Log::warning("Resend purchase email failed (HTTP $code): " . ($curlErr ?: $resp));
+                    }
+                } catch (\Throwable $e) {
+                    Log::warning('Purchase email send failed: ' . $e->getMessage());
+                }
             }
 
             return response()->json($response, 200);
