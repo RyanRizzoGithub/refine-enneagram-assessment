@@ -55,7 +55,7 @@
             <p style="margin:0 0 20px 0;">If these results are a little overwhelming, we understand. We believe in the power of "why" and recommend starting with the internal drivers. Evaluate how they resonate with you and see if they illuminate unrealized motivations in your life. <em>Once you've grasped the "why", everything else explains "how" and "what".</em> Working through this lens gives you the thorough understanding of your Enneagram type.</p>
 
             <h1 style="color:#000000;font-family:Montserrat,Helvetica,Arial,sans-serif;font-size:28px;margin:0 0 12px 0;">Take the next step.</h1>
-            <p style="margin:0;">While the assessment results give a broad overview of your Enneagram type, the magic lies in the coaching. Sign up for an introductory session below to dig further into your type and what it means to you.</p>
+            <p style="margin:0;">While the assessment results give a broad overview of your Enneagram type, our courses take you deeper. Explore them below to dig further into your type and what it means to you.</p>
 
             <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
@@ -90,7 +90,7 @@
         <tr>
           <td align="center" style="padding:30px;color:#808080;font-family:'Open Sans',Helvetica,Arial,sans-serif;font-size:12px;line-height:18px;text-align:center;">
             <p style="margin:0;">You're receiving this because you completed the theREFINEnetwork Enneagram assessment.</p>
-            <p style="margin:10px 0 0 0;">True Strategy, PO Box 1143, Belmont, NC 28012, United States</p>
+            <p style="margin:10px 0 0 0;">theREFINEnetwork &middot; <a href="https://www.therefinenetwork.com" target="_blank" style="color:#808080;text-decoration:underline;">therefinenetwork.com</a></p>
           </td>
         </tr>
 
