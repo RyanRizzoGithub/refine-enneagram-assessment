@@ -80,24 +80,10 @@ class ChargeController extends Controller
             } else {
                 // Success
 
-                $list_id = env('ACTIVECAMPAIGN_LIST_ID');
-                $contact = array(
-                    "email" => $request->email,
-                    "first_name" => trim($request->first_name),
-                    "last_name" => trim($request->last_name),
-                    "p[{$list_id}]" => $list_id,
-                    "status[{$list_id}]" => 1, // "Active" status
-                );
-
-
                 if (is_null($request->title)) {
                     // Single use access code
                     $new_access_token = TokenController::store($request);
                     $response = array('success' => true, 'access_token' => $new_access_token);
-
-                    $contact['tags'] = array(
-                        "300" => env('APP_NAME') ." - Purchased Single-Use Access Code",
-                    );
 
                     // update payment intent with the access code that was generated
                     \Stripe\PaymentIntent::update($stripe_intent->id, ['metadata' => ['Access Code' => $response['access_token']]]);
@@ -112,33 +98,10 @@ class ChargeController extends Controller
                         $access_token->increment('uses', $request->uses);
                         $response = array('success' => true, 'access_token' => $access_token->title);
                     }
-
-                    $contact['tags'] = array(
-                        "301" => env('APP_NAME'). " - Purchased Multi-Use Access Code",
-                    );
-                }
-
-                $contact['field'] = array(
-                    '%STRIPE_PAYMENT_ID%,0' => $stripe_intent->id,
-                    '%STRIPE_CHARGE_AMOUNT%,0' => $stripe_intent->amount / 100,
-                    '%ACCESS_CODE_PURCHASED%,0' => $response['access_token'],
-                    '%ACCESS_CODE_USES_PURCHASED%,0' => $request->uses ? $request->uses : 1,
-                );
-
-                // ActiveCampaign sync is best-effort and runs AFTER the card
-                // has already been charged and the access code created, so a
-                // CRM/email failure (e.g. the account past-due, or a network
-                // error) must never turn a successful purchase into a 500.
-                // Log it and return the successful response.
-                try {
-                    app('ActiveCampaign')->api("contact/sync", $contact);
-                } catch (\Throwable $e) {
-                    Log::warning('ActiveCampaign contact sync failed on purchase: ' . $e->getMessage());
                 }
 
                 // Send the purchase-confirmation email directly via Resend's
-                // HTTP API (best-effort), the same as the results email — the
-                // app owns delivery regardless of ActiveCampaign's state.
+                // HTTP API (best-effort), the same as the results email.
                 try {
                     $html = view('emails.purchase', [
                         'firstName'  => $request->first_name,

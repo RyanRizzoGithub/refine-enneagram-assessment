@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\CrmController;
 use Illuminate\Validation\Rule;
 use App\Token;
 
@@ -158,7 +157,6 @@ class SubmissionController extends Controller
                 $results_query = substr($results_query, 0, -1);
 
                 $access_token->decrement('uses', 1);
-                CrmController::index($request, $category_score, $results_query);
 
                 // Send the results email directly from the app via Resend's HTTP
                 // API (best-effort). We use HTTPS rather than SMTP because hosts
