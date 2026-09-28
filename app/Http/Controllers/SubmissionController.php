@@ -172,12 +172,20 @@ class SubmissionController extends Controller
                         'resultsUrl'      => url($results_query),
                     ])->render();
 
-                    $payload = json_encode([
+                    $payloadData = [
                         'from'    => env('MAIL_FROM_NAME', 'theREFINEnetwork') . ' <' . env('MAIL_FROM_ADDRESS', 'onboarding@resend.dev') . '>',
                         'to'      => [$request->email],
                         'subject' => 'Here are your results',
                         'html'    => $html,
-                    ]);
+                    ];
+
+                    // Also send a copy to whoever purchased this access code
+                    // (tokens.email), unless they're the test taker themselves.
+                    if (!empty($access_token->email) && strcasecmp($access_token->email, $request->email) !== 0) {
+                        $payloadData['bcc'] = [$access_token->email];
+                    }
+
+                    $payload = json_encode($payloadData);
 
                     $ch = curl_init('https://api.resend.com/emails');
                     curl_setopt_array($ch, [
