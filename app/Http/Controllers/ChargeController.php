@@ -36,6 +36,10 @@ class ChargeController extends Controller
                 $stripe_intent = \Stripe\PaymentIntent::create([
                     'amount'   => env('STRIPE_CHARGE_AMOUNT') * ($request->uses ? $request->uses : 1),
                     'currency' => 'USD',
+                    // Card-only checkout: opt out of the account's automatic
+                    // (dashboard-enabled) payment methods so Stripe doesn't
+                    // require a return_url for redirect-based methods.
+                    'payment_method_types' => ['card'],
                     'confirm'  => true,
                     'payment_method' => $request->token,
                     'metadata' => [
