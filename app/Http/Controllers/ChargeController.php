@@ -49,7 +49,6 @@ class ChargeController extends Controller
                         'Access Code Uses Purchased' => $request->uses ? $request->uses : 1,
                         'Purchase Source' => env('APP_NAME'),
                     ],
-                    'statement_descriptor' => env('APP_NAME') .' Code',
                 ]);
             } catch (\Stripe\Exception\CardException $e) {
                 // Card was declined.
