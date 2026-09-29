@@ -47,35 +47,23 @@ class ChargeController extends Controller
                     ],
                     'statement_descriptor' => env('APP_NAME') .' Code',
                 ]);
-            } catch(Stripe_CardError $e) {
-                // Since it's a decline, Stripe_CardError will be caught
-                $body = $e->getJsonBody();
-                $err  = $body['error'];
-            } catch (Stripe_InvalidRequestError $e) {
-                // Invalid parameters were supplied to Stripe's API
-                $body = $e->getJsonBody();
-                $err  = $body['error'];
-            } catch (Stripe_AuthenticationError $e) {
-                // Authentication with Stripe's API failed
-                // (maybe you changed API keys recently)
-                $body = $e->getJsonBody();
-                $err  = $body['error'];
-            } catch (Stripe_ApiConnectionError $e) {
-                // Network communication with Stripe failed
-                $body = $e->getJsonBody();
-                $err  = $body['error'];
-            } catch (Stripe_Error $e) {
-                // Display a very generic error to the user, and maybe send
-                // yourself an email
-                $body = $e->getJsonBody();
-                $err  = $body['error'];
-            } catch (Exception $e) {
-                // Something else happened, completely unrelated to Stripe
-                $body = $e->getJsonBody();
-                $err  = $body['error'];
+            } catch (\Stripe\Exception\CardException $e) {
+                // Card was declined.
+                $err = optional($e->getError())->message ?: $e->getMessage();
+            } catch (\Stripe\Exception\ApiErrorException $e) {
+                // Any other Stripe API error (invalid request, authentication,
+                // connection, rate limit, ...). NOTE: the old code caught Stripe
+                // SDK v1 class names (Stripe_CardError, etc.) that don't exist in
+                // v7, so every Stripe error fell through uncaught as a 500.
+                $err = optional($e->getError())->message ?: $e->getMessage();
+            } catch (\Throwable $e) {
+                // Anything unrelated to Stripe.
+                Log::error('Non-Stripe charge error: ' . $e->getMessage());
+                $err = 'Something went wrong processing your payment. Please try again.';
             }
 
-            if($err) {
+            if ($err) {
+                Log::warning('Stripe charge failed: ' . $err);
                 $response = array('success' => false, 'message' => $err);
             } else {
                 // Success
@@ -85,8 +73,12 @@ class ChargeController extends Controller
                     $new_access_token = TokenController::store($request);
                     $response = array('success' => true, 'access_token' => $new_access_token);
 
-                    // update payment intent with the access code that was generated
-                    \Stripe\PaymentIntent::update($stripe_intent->id, ['metadata' => ['Access Code' => $response['access_token']]]);
+                    // update payment intent with the access code that was generated (best-effort)
+                    try {
+                        \Stripe\PaymentIntent::update($stripe_intent->id, ['metadata' => ['Access Code' => $response['access_token']]]);
+                    } catch (\Throwable $e) {
+                        Log::warning('PaymentIntent metadata update failed: ' . $e->getMessage());
+                    }
 
                 } else {
                     // Multi use access code
