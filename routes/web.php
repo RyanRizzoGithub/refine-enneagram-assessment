@@ -24,6 +24,7 @@ Auth::routes(['register' => false]);
 // Admin Routes
 Route::get('/admin', 'Admin\DashboardController@index')->middleware('auth');
 Route::post('/admin/create-access-code', 'Admin\DashboardController@create_access_code')->name('create_access_code')->middleware('auth');
+Route::post('/admin/change-password', 'Admin\DashboardController@change_password')->name('change_password')->middleware('auth');
 
 // Renders the results email in the browser for design review (admin only).
 Route::get('/admin/email-preview', function () {

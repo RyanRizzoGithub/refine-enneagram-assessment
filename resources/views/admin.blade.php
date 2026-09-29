@@ -35,6 +35,13 @@
                             </div>
 
                             <div class="col-12">
+                                <div class="form-group">
+                                    <label for="email">Owner email <small class="text-muted">(optional &mdash; who receives the results; defaults to you)</small></label>
+                                    <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="{{ auth()->user()->email }}">
+                                </div>
+                            </div>
+
+                            <div class="col-12">
                                 @if ($errors->any())
                                     <div id="errors" class="alert alert-danger mt-4" role="alert">
                                         <ul class="alert-list">
@@ -52,6 +59,51 @@
                                 </div>
                             </div>
 
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h1 class="text-center">Change Password</h1>
+                    <hr>
+
+                    @if (session('password_success'))
+                        <div class="alert alert-success alert-dismissible mb-4" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            {{ session('password_success') }}
+                        </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('change_password') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="current_password">Current Password</label>
+                            <input type="password" class="form-control" name="current_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password">New Password</label>
+                            <input type="password" class="form-control" name="new_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="new_password_confirmation">Confirm New Password</label>
+                            <input type="password" class="form-control" name="new_password_confirmation" required>
+                        </div>
+
+                        @if ($errors->password->any())
+                            <div class="alert alert-danger mt-3" role="alert">
+                                <ul class="alert-list">
+                                    @foreach ($errors->password->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <div class="d-flex justify-content-center mt-3">
+                            <input type="submit" class="btn btn-primary" value="Update Password">
                         </div>
                     </form>
 
