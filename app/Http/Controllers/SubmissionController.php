@@ -195,6 +195,53 @@ class SubmissionController extends Controller
                     Log::warning('Results email send failed on assessment submit: ' . $e->getMessage());
                 }
 
+                // Push a flat payload to Zapier (best-effort; no-op if the
+                // webhook URL isn't set) so completions can flow into Monday.com.
+                $zapier_url = env('ZAPIER_WEBHOOK_URL');
+                if (!empty($zapier_url)) {
+                    try {
+                        $webhook_payload = json_encode([
+                            'first_name'     => $request->first_name,
+                            'last_name'      => $request->last_name,
+                            'email'          => $request->email,
+                            'owner_email'    => $access_token->email,
+                            'access_code'    => $access_token->title,
+                            'enneagram_type' => str_replace('type', '', $category_score_sorted[0]),
+                            'results_url'    => url($results_query),
+                            'type1_score'    => $category_score['type1'] ?? null,
+                            'type2_score'    => $category_score['type2'] ?? null,
+                            'type3_score'    => $category_score['type3'] ?? null,
+                            'type4_score'    => $category_score['type4'] ?? null,
+                            'type5_score'    => $category_score['type5'] ?? null,
+                            'type6_score'    => $category_score['type6'] ?? null,
+                            'type7_score'    => $category_score['type7'] ?? null,
+                            'type8_score'    => $category_score['type8'] ?? null,
+                            'type9_score'    => $category_score['type9'] ?? null,
+                            'completed_at'   => now()->toIso8601String(),
+                        ]);
+
+                        $ch = curl_init($zapier_url);
+                        curl_setopt_array($ch, [
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_POST           => true,
+                            CURLOPT_POSTFIELDS     => $webhook_payload,
+                            CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+                            CURLOPT_CONNECTTIMEOUT => 5,
+                            CURLOPT_TIMEOUT        => 10,
+                        ]);
+                        $resp = curl_exec($ch);
+                        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                        $err  = curl_error($ch);
+                        curl_close($ch);
+
+                        if ($resp === false || $code < 200 || $code >= 300) {
+                            Log::warning("Zapier webhook failed (HTTP $code): " . ($err ?: $resp));
+                        }
+                    } catch (\Throwable $e) {
+                        Log::warning('Zapier webhook send failed: ' . $e->getMessage());
+                    }
+                }
+
             }
             $response = array('success' => true, 'resultsUrl' => $results_query);
             return response()->json($response, 200);
