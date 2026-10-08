@@ -56,6 +56,15 @@ Route::get('/admin/email-preview-owner', function () {
     ]);
 })->middleware('auth');
 
+// Renders the access-code email (sent when an admin creates a code with an
+// owner email) in the browser (admin only).
+Route::get('/admin/email-preview-access-code', function () {
+    return view('emails.access-code', [
+        'accessCode' => 'SAMPLE123',
+        'uses'       => 5,
+    ]);
+})->middleware('auth');
+
 // Application Routes
 Route::post('/submit', 'SubmissionController@index');
 Route::get('/{any}', 'SinglePageController@index')->where('any', '.*');

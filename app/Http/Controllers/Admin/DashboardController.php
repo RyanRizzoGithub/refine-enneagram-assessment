@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\TokenController;
 use App\Token;
 
@@ -56,6 +57,47 @@ class DashboardController extends Controller
 
             // Create Access Code
             $new_access_token_title = TokenController::store($request);
+
+            // If an owner email was explicitly entered, email that person their
+            // code (best-effort via Resend — never block creation on a mail issue).
+            if ($request->filled('email')) {
+                try {
+                    $html = view('emails.access-code', [
+                        'accessCode' => $new_access_token_title,
+                        'uses'       => $request->uses ? $request->uses : 1,
+                    ])->render();
+
+                    $payload = json_encode([
+                        'from'    => env('MAIL_FROM_NAME', 'theREFINEnetwork') . ' <' . env('MAIL_FROM_ADDRESS', 'onboarding@resend.dev') . '>',
+                        'to'      => [$owner_email],
+                        'subject' => 'Your Enneagram assessment access code',
+                        'html'    => $html,
+                    ]);
+
+                    $ch = curl_init('https://api.resend.com/emails');
+                    curl_setopt_array($ch, [
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_POST           => true,
+                        CURLOPT_POSTFIELDS     => $payload,
+                        CURLOPT_HTTPHEADER     => [
+                            'Authorization: Bearer ' . env('RESEND_API_KEY'),
+                            'Content-Type: application/json',
+                        ],
+                        CURLOPT_CONNECTTIMEOUT => 5,
+                        CURLOPT_TIMEOUT        => 10,
+                    ]);
+                    $resp = curl_exec($ch);
+                    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    $err  = curl_error($ch);
+                    curl_close($ch);
+
+                    if ($resp === false || $code < 200 || $code >= 300) {
+                        Log::warning("Access code email failed (HTTP $code): " . ($err ?: $resp));
+                    }
+                } catch (\Throwable $e) {
+                    Log::warning('Access code email send failed: ' . $e->getMessage());
+                }
+            }
 
             return back()->with('success', "Access code, $new_access_token_title, has been created for $owner_email!");
         }
