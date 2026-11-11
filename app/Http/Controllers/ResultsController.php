@@ -1299,6 +1299,10 @@ class ResultsController extends Controller
         return array_merge(
             ["type" => $results["type$type"]],
             $results["type$type"]["public"],
+            // The PDF report is available for every type (so people can explore
+            // and download any type), while the rest of the detailed "private"
+            // content stays limited to the user's own top type.
+            ["pdf" => $results["type$type"]["private"]["pdf"]],
             $type == $high_score_type ? $results["type$type"]["private"] : []
         );
     }
