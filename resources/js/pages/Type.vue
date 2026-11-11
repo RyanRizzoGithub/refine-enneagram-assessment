@@ -8,10 +8,11 @@
             <CategoryContent first>
                 <h1 class="text-center text-uppercase"><span>How You Scored Across All Nine Enneagram Types</span></h1>
                 <CategoryBarGraph :scores="scores"></CategoryBarGraph>
-                <div class="text-center" v-if="isHighScore()">
+                <p class="explore-types text-center text-muted">Not sure this is you? Tap any type above to read its full report.</p>
+                <div class="text-center">
                     <transition name="fade" appear>
-                        <div v-if="results.title">
-                            <a :href="results.pdf" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Download Type {{highScoreType()}} Report</a>
+                        <div v-if="results.pdf">
+                            <a :href="results.pdf" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Download Type {{currentType()}} Report</a>
                         </div>
                     </transition>
                 </div>
