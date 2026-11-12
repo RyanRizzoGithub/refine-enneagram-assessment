@@ -23,7 +23,8 @@ class ResultsController extends Controller
                     "internal_drivers_dominate_struggle" => "<i>Resentment</i> - The Type 1 feels it is their responsibility for things to be right. They hold themselves and those around them to high standards and when they are not met, resentment can build until it surfaces as being critical or judgmental.",
                 ],
                 "private" => [
-                    "pdf" => "/pdfs/type-1-perfectionist.pdf",
+                    "pdf_general" => "/pdfs/type-1-general.pdf",
+                    "pdf_cosmetologist" => "/pdfs/type-1-cosmetologist.pdf",
                     "s2_title" => "Type 1 - Understanding Your Paths",
                     "s2_content" => "What sets the Enneagram apart from other personality tools is that it gives you the ability to navigate your internal world. The Enneagram shows you what you look like at your best, worst, and everything in between. Each Enneagram type takes on characteristics of other types in different situations. The paths below show what that looks like for you.",
                     "path_left" => 7,
@@ -167,7 +168,8 @@ class ResultsController extends Controller
                     "internal_drivers_dominate_struggle" => "<i>Pride</i> - The Type 2 is constantly giving and serving as they believe this is the “gift” they offer the world. However if and when this gift is not met with their expected appreciation or they feel they are giving more than they are receiving they will become extremely prideful and self focused.",
                 ],
                 "private" => [
-                    "pdf" => "/pdfs/type-2-helper.pdf",
+                    "pdf_general" => "/pdfs/type-2-general.pdf",
+                    "pdf_cosmetologist" => "/pdfs/type-2-cosmetologist.pdf",
                     "s2_title" => "Type 2 - Understanding Your Paths",
                     "s2_content" => "What sets the Enneagram apart from other personality tools is that it gives you the ability to navigate your internal world. The Enneagram shows you what you look like at your best, worst, and everything in between. Each Enneagram type takes on characteristics of other types in different situations. The paths below show what that looks like for you.",
                     "path_left" => 4,
@@ -312,7 +314,8 @@ class ResultsController extends Controller
                     "internal_drivers_dominate_struggle" => "<i>Self-Deceit</i> - The Type 3 is known as the chameleon type, taking on different personas and behaviors depending on their audience to achieve success. This leads to the struggle of self-deceit and believing they are only their accomplishments or their personas. They “lose” themselves in their pursuit of success and can encounter reoccurring identity crisis.",
                 ],
                 "private" => [
-                    "pdf" => "/pdfs/type-3-achiever.pdf",
+                    "pdf_general" => "/pdfs/type-3-general.pdf",
+                    "pdf_cosmetologist" => "/pdfs/type-3-cosmetologist.pdf",
                     "s2_title" => "Type 3 - Understanding Your Paths",
                     "s2_content" => "What sets the Enneagram apart from other personality tools is that it gives you the ability to navigate your internal world. The Enneagram shows you what you look like at your best, worst, and everything in between. Each Enneagram type takes on characteristics of other types in different situations. The paths below show what that looks like for you.",
                     "path_left" => 6,
@@ -457,7 +460,8 @@ class ResultsController extends Controller
                     "internal_drivers_dominate_struggle" => "<i>Envy</i> - As the Type 4 strives to be unique and special they can’t help but feel that they are inherently flawed. They believe something is missing and begin to believe those around them have that “missing” piece that they need so they become envious.",
                 ],
                 "private" => [
-                    "pdf" => "/pdfs/type-4-individualist.pdf",
+                    "pdf_general" => "/pdfs/type-4-general.pdf",
+                    "pdf_cosmetologist" => "/pdfs/type-4-cosmetologist.pdf",
                     "s2_title" => "Type 4 - Understanding Your Paths",
                     "s2_content" => "What sets the Enneagram apart from other personality tools is that it gives you the ability to navigate your internal world. The Enneagram shows you what you look like at your best, worst, and everything in between. Each Enneagram type takes on characteristics of other types in different situations. The paths below show what that looks like for you.",
                     "path_left" => 1,
@@ -596,7 +600,8 @@ class ResultsController extends Controller
                     "internal_drivers_dominate_struggle" => "<i>Greed</i> - The Type 5, even in excess, does not believe they have enough to exist. With this constant tension they can easily think they must store their energy and resources to a point of greed and selfishness.",
                 ],
                 "private" => [
-                    "pdf" => "/pdfs/type-5-investigator.pdf",
+                    "pdf_general" => "/pdfs/type-5-general.pdf",
+                    "pdf_cosmetologist" => "/pdfs/type-5-cosmetologist.pdf",
                     "s2_title" => "Type 5 - Understanding Your Paths",
                     "s2_content" => "What sets the Enneagram apart from other personality tools is that it gives you the ability to navigate your internal world. The Enneagram shows you what you look like at your best, worst, and everything in between. Each Enneagram type takes on characteristics of other types in different situations. The paths below show what that looks like for you.",
                     "path_left" => 8,
@@ -735,7 +740,8 @@ class ResultsController extends Controller
                     "internal_drivers_dominate_struggle" => "<i>Anxiety</i> - Natural worst case scenario thinkers they find themselves constantly anxious trying to predict all the possible situations and outcomes they may encounter. This can become debilitating to the point of sickness.",
                 ],
                 "private" => [
-                    "pdf" => "/pdfs/type-6-loyalist.pdf",
+                    "pdf_general" => "/pdfs/type-6-general.pdf",
+                    "pdf_cosmetologist" => "/pdfs/type-6-cosmetologist.pdf",
                     "s2_title" => "Type 6 - Understanding Your Paths",
                     "s2_content" => "What sets the Enneagram apart from other personality tools is that it gives you the ability to navigate your internal world. The Enneagram shows you what you look like at your best, worst, and everything in between. Each Enneagram type takes on characteristics of other types in different situations. The paths below show what that looks like for you.",
                     "path_left" => 9,
@@ -879,7 +885,8 @@ class ResultsController extends Controller
                     "internal_drivers_dominate_struggle" => "<i>Gluttony</i> - In their pursuit of being fully satisfied they feel empty inside and seek to fill themselves up to compensate for this feeling of lack. They can develop an insatiable desire to meet their needs grasping for every experience and opportunity in hopes of not missing out.",
                 ],
                 "private" => [
-                    "pdf" => "/pdfs/type-7-enthusiast.pdf",
+                    "pdf_general" => "/pdfs/type-7-general.pdf",
+                    "pdf_cosmetologist" => "/pdfs/type-7-cosmetologist.pdf",
                     "s2_title" => "Type 7 - Understanding Your Paths",
                     "s2_content" => "What sets the Enneagram apart from other personality tools is that it gives you the ability to navigate your internal world. The Enneagram shows you what you look like at your best, worst, and everything in between. Each Enneagram type takes on characteristics of other types in different situations. The paths below show what that looks like for you.",
                     "path_left" => 5,
@@ -1024,7 +1031,8 @@ class ResultsController extends Controller
                     "internal_drivers_dominate_struggle" => "<i>Lust/Excess</i> - An insatiable appetite for power, intensity, and control. They impose their will on life and those around them in order to get what they want. “Too much is almost enough.”",
                 ],
                 "private" => [
-                    "pdf" => "/pdfs/type-8-challenger.pdf",
+                    "pdf_general" => "/pdfs/type-8-general.pdf",
+                    "pdf_cosmetologist" => "/pdfs/type-8-cosmetologist.pdf",
                     "s2_title" => "Type 8 - Understanding Your Paths",
                     "s2_content" => "What sets the Enneagram apart from other personality tools is that it gives you the ability to navigate your internal world. The Enneagram shows you what you look like at your best, worst, and everything in between. Each Enneagram type takes on characteristics of other types in different situations. The paths below show what that looks like for you.",
                     "path_left" => 2,
@@ -1169,7 +1177,8 @@ class ResultsController extends Controller
                     "internal_drivers_dominate_struggle" => "<i>Sloth</i> - Withdrawing from the world and even their own thoughts in order to avoid internal or external conflict. They can become mentally and physically slothful by forgetting their needs, desires, and skills by shutting down or merging with others desires or needs.",
                 ],
                 "private" => [
-                    "pdf" => "/pdfs/type-9-peacemaker.pdf",
+                    "pdf_general" => "/pdfs/type-9-general.pdf",
+                    "pdf_cosmetologist" => "/pdfs/type-9-cosmetologist.pdf",
                     "s2_title" => "Type 9 - Understanding Your Paths",
                     "s2_content" => "What sets the Enneagram apart from other personality tools is that it gives you the ability to navigate your internal world. The Enneagram shows you what you look like at your best, worst, and everything in between. Each Enneagram type takes on characteristics of other types in different situations. The paths below show what that looks like for you.",
                     "path_left" => 3,
@@ -1299,10 +1308,14 @@ class ResultsController extends Controller
         return array_merge(
             ["type" => $results["type$type"]],
             $results["type$type"]["public"],
-            // The PDF report is available for every type (so people can explore
-            // and download any type), while the rest of the detailed "private"
-            // content stays limited to the user's own top type.
-            ["pdf" => $results["type$type"]["private"]["pdf"]],
+            // Both PDF reports (general + cosmetologist) are available for every
+            // type (so people can explore and download any type), while the rest
+            // of the detailed "private" content stays limited to the user's own
+            // top type.
+            [
+                "pdf_general" => $results["type$type"]["private"]["pdf_general"],
+                "pdf_cosmetologist" => $results["type$type"]["private"]["pdf_cosmetologist"],
+            ],
             $type == $high_score_type ? $results["type$type"]["private"] : []
         );
     }

@@ -11,8 +11,9 @@
                 <p class="explore-types text-center text-muted">Not sure this is you? Tap any type above to read its full report.</p>
                 <div class="text-center">
                     <transition name="fade" appear>
-                        <div v-if="results.pdf">
-                            <a :href="results.pdf" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Download Type {{currentType()}} Report</a>
+                        <div v-if="results.pdf_general || results.pdf_cosmetologist" class="report-downloads">
+                            <a v-if="results.pdf_general" :href="results.pdf_general" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Download General Report</a>
+                            <a v-if="results.pdf_cosmetologist" :href="results.pdf_cosmetologist" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Download Cosmetologist Report</a>
                         </div>
                     </transition>
                 </div>
@@ -351,6 +352,17 @@ export default {
 
     html {
         background: $onsite-white;
+    }
+
+    .report-downloads {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+
+        .btn {
+            margin: 0;
+        }
     }
 
     .metric-chart-holder {
