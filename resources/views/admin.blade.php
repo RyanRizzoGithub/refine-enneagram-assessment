@@ -103,7 +103,6 @@
                                     'owner'      => (string) $t->email,
                                     'start'      => $start,
                                     'remaining'  => $remaining,
-                                    'used'       => max(0, $start - $remaining),
                                     'created_ts' => optional($t->created_at)->timestamp ?? 0,
                                     'created'    => optional($t->created_at)->format('M j, Y') ?? '',
                                 ];
@@ -145,14 +144,12 @@
                                         <th scope="col" class="ac-sort" data-sort-key="owner" role="button" tabindex="0">Owner <span class="ac-arrow"></span></th>
                                         <th scope="col" class="ac-sort text-center" data-sort-key="start" role="button" tabindex="0">Starting <span class="ac-arrow"></span></th>
                                         <th scope="col" class="ac-sort text-center" data-sort-key="remaining" role="button" tabindex="0">Remaining <span class="ac-arrow"></span></th>
-                                        <th scope="col" class="ac-sort text-center" data-sort-key="used" role="button" tabindex="0">Used <span class="ac-arrow"></span></th>
                                         <th scope="col" class="ac-sort" data-sort-key="created_ts" role="button" tabindex="0">Created <span class="ac-arrow"></span></th>
                                     </tr>
                                 </thead>
                                 <tbody id="ac-tbody">
                                     {{-- Server-rendered rows; JS takes over and re-renders with paging/sort/filter --}}
                                     @foreach ($tokens as $token)
-                                        @php $used = max(0, (int) $token->starting_uses - (int) $token->uses); @endphp
                                         <tr>
                                             <td><code>{{ $token->title }}</code></td>
                                             <td>{{ $token->email }}</td>
@@ -164,7 +161,6 @@
                                                     <span class="badge badge-secondary">0</span>
                                                 @endif
                                             </td>
-                                            <td class="text-center">{{ $used }}</td>
                                             <td class="text-nowrap">{{ optional($token->created_at)->format('M j, Y') }}</td>
                                         </tr>
                                     @endforeach
@@ -216,7 +212,7 @@
 
                             function getSorted(rows) {
                                 var k = state.sortKey, dir = state.sortDir === 'asc' ? 1 : -1;
-                                var numeric = (k === 'start' || k === 'remaining' || k === 'used' || k === 'created_ts');
+                                var numeric = (k === 'start' || k === 'remaining' || k === 'created_ts');
                                 return rows.slice().sort(function (a, b) {
                                     var av = a[k], bv = b[k];
                                     if (numeric) { return ((Number(av) || 0) - (Number(bv) || 0)) * dir; }
@@ -277,7 +273,6 @@
                                     tdRem.appendChild(badge(r.remaining));
                                     tr.appendChild(tdRem);
 
-                                    tr.appendChild(cell(r.used, 'text-center'));
                                     tr.appendChild(cell(r.created || '', 'text-nowrap'));
 
                                     tbody.appendChild(tr);
