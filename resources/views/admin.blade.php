@@ -67,6 +67,57 @@
 
             <div class="card mt-4">
                 <div class="card-body">
+                    <h1 class="text-center">Access Codes</h1>
+                    <p class="text-center">
+                        All codes that have been created.
+                        <small class="text-muted d-block">{{ count($tokens) }} total</small>
+                    </p>
+                    <hr>
+
+                    @if (count($tokens))
+                        <div class="table-responsive">
+                            <table class="table table-striped table-sm align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Access Code</th>
+                                        <th scope="col">Owner</th>
+                                        <th scope="col" class="text-center">Starting uses</th>
+                                        <th scope="col" class="text-center">Remaining</th>
+                                        <th scope="col" class="text-center">Used</th>
+                                        <th scope="col">Created</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($tokens as $token)
+                                        @php
+                                            $used = max(0, $token->starting_uses - $token->uses);
+                                        @endphp
+                                        <tr>
+                                            <td><code>{{ $token->title }}</code></td>
+                                            <td>{{ $token->email }}</td>
+                                            <td class="text-center">{{ $token->starting_uses }}</td>
+                                            <td class="text-center">
+                                                @if ($token->uses > 0)
+                                                    <span class="badge badge-success">{{ $token->uses }}</span>
+                                                @else
+                                                    <span class="badge badge-secondary">0</span>
+                                                @endif
+                                            </td>
+                                            <td class="text-center">{{ $used }}</td>
+                                            <td>{{ optional($token->created_at)->format('M j, Y') }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <p class="text-center text-muted mb-0">No access codes have been created yet.</p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
                     <h1 class="text-center">Change Password</h1>
                     <hr>
 

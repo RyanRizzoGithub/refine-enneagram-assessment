@@ -27,6 +27,9 @@ class TokenController extends Controller
         }
 
         $token->uses = $request->uses ? $request->uses : 1;
+        // Record the original allotment so the admin can later see how many of
+        // the code's uses have been consumed. "uses" is decremented on redeem.
+        $token->starting_uses = $token->uses;
         $token->email = $request->email;
         $token->save();
 

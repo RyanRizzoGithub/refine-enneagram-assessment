@@ -19,7 +19,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin');
+        // All access codes, newest first, for the admin overview table.
+        $tokens = Token::orderBy('created_at', 'desc')->get();
+
+        return view('admin', ['tokens' => $tokens]);
     }
 
     /**
